@@ -11,6 +11,8 @@
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.5.0",
+    "antd": "^4.23.6",
+    "@ant-design/icons": "latest",
     "next": "12.3.1",
     "next-auth": "^4.15.0",
     "prisma": "^4.5.0",
