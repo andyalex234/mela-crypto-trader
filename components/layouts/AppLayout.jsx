@@ -1,15 +1,39 @@
 import React from 'react';
 import { useRouter } from 'next/router'
-import { DashboardOutlined, FundProjectionScreenOutlined, FieldTimeOutlined, WalletOutlined, HistoryOutlined, UserOutlined, RocketOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { DashboardOutlined, FundProjectionScreenOutlined, FieldTimeOutlined, WalletOutlined, HistoryOutlined, UserOutlined, RocketOutlined, AntDesignOutlined, DownOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Layout, Menu, Avatar, Dropdown, Space, Row, Button, Typography } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
+const { Text } = Typography
+
+const menu = (
+    <Menu
+        items={[
+            {
+                key: '1',
+                label: (
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                        Profile
+                    </a>
+                ),
+            },
+            {
+                key: '4',
+                danger: true,
+                icon: <LogoutOutlined />,
+                label: (
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                        Logout
+                    </a>
+                ),
+            },
+        ]}
+    />
+);
+
+
 
 const AppLayout = ({ children }) => {
     const router = useRouter()
-    // const style = {
-    //     marginRight: 10,
-    //     color: router.asPath === href ? 'red' : 'black',
-    // }
 
     const handleClick = (e, href) => {
         // e.preventDefault()
@@ -105,11 +129,39 @@ const AppLayout = ({ children }) => {
             </Sider>
             <Layout>
                 <Header
-                    className="site-layout-sub-header-background"
+                    className="site-layout-sub-header-background top-nav"
                     style={{
                         padding: 0,
                     }}
-                />
+                >
+                    <div
+                        className='top-nav-right'
+                    >
+                        <Row
+                            align="middle"
+                            justify='space-between'
+                            gutter={[16, 16]}
+                        >
+                            <Space direction='horizontal'>
+                                <Avatar
+                                    size={45}
+                                    icon={<AntDesignOutlined />}
+                                />
+                                <Dropdown overlay={menu}>
+                                    <a onClick={(e) => e.preventDefault()}>
+                                        <Space>
+                                            User Name
+                                            <DownOutlined />
+                                        </Space>
+                                    </a>
+                                </Dropdown>
+                                {/* <Text type='secondary'>To enjoy all the features please</Text>
+                                <Button onClick={() => console.log('sing in/up')}>Signin/Signup</Button> */}
+                            </Space>
+                        </Row>
+                    </div>
+
+                </Header>
                 <Content
                     style={{
                         margin: '24px 16px 0',
