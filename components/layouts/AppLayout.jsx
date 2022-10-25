@@ -1,7 +1,9 @@
 import React from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useSession, signOut, signIn } from 'next-auth/react';
 import { DashboardOutlined, FundProjectionScreenOutlined, FieldTimeOutlined, WalletOutlined, HistoryOutlined, UserOutlined, RocketOutlined, AntDesignOutlined, DownOutlined, LogoutOutlined } from '@ant-design/icons';
-import { Layout, Menu, Avatar, Dropdown, Space, Row, Button, Typography } from 'antd';
+import { Layout, Menu, Avatar, Dropdown, Space, Row, Button, Typography, Image } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 const { Text } = Typography
 
@@ -11,9 +13,9 @@ const menu = (
             {
                 key: '1',
                 label: (
-                    <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                        Profile
-                    </a>
+                    <Link href='/profile'>
+                        <a>Profile</a>
+                    </Link>
                 ),
             },
             {
@@ -21,7 +23,7 @@ const menu = (
                 danger: true,
                 icon: <LogoutOutlined />,
                 label: (
-                    <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                    <a onClick={() => signOut()}>
                         Logout
                     </a>
                 ),
@@ -33,7 +35,8 @@ const menu = (
 
 
 const AppLayout = ({ children }) => {
-    const router = useRouter()
+    const router = useRouter();
+    const { data: session } = useSession();
 
     const handleClick = (e, href) => {
         // e.preventDefault()
@@ -78,7 +81,6 @@ const AppLayout = ({ children }) => {
             href: '/profile'
         }
     ];
-
 
     return (
         <Layout
@@ -143,20 +145,28 @@ const AppLayout = ({ children }) => {
                             gutter={[16, 16]}
                         >
                             <Space direction='horizontal'>
-                                <Avatar
-                                    size={45}
-                                    icon={<AntDesignOutlined />}
-                                />
-                                <Dropdown overlay={menu}>
-                                    <a onClick={(e) => e.preventDefault()}>
-                                        <Space>
-                                            User Name
-                                            <DownOutlined />
-                                        </Space>
-                                    </a>
-                                </Dropdown>
-                                {/* <Text type='secondary'>To enjoy all the features please</Text>
-                                <Button onClick={() => console.log('sing in/up')}>Signin/Signup</Button> */}
+                                {session ? (
+                                    <>
+                                        <Avatar
+                                            size={45}
+                                            src={<Image src={session.user.image}/>}
+                                        />
+                                        <Dropdown overlay={menu}>
+                                            <a onClick={(e) => e.preventDefault()}>
+                                                <Space>
+                                                    {session.user.name}
+                                                    <DownOutlined />
+                                                </Space>
+                                            </a>
+                                        </Dropdown>
+                                    </>
+
+                                ) : (
+                                    <>
+                                        <Text type='secondary'>To enjoy all the features please</Text>
+                                        <Button onClick={() => signIn()}>Signin/Signup</Button>
+                                    </>
+                                )}
                             </Space>
                         </Row>
                     </div>
