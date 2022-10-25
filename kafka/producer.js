@@ -1,0 +1,2 @@
+const { Kafka } = require('kafkajs');
+
